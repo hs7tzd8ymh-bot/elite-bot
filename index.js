@@ -1,19 +1,27 @@
-"use strict";
-// This file exports all the types available in the recommended voice gateway version
-// Thereby, things MAY break in the future. Try sticking to imports from a specific version
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-//# sourceMappingURL=index.js.map
+const { Client, GatewayIntentBits } = require("discord.js");
+
+// TOKEN preso da Render Environment Variables
+const TOKEN = process.env.TOKEN;
+
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildMembers
+  ]
+});
+
+client.once("ready", () => {
+  console.log(`Bot online: ${client.user.tag}`);
+});
+
+client.on("messageCreate", async (message) => {
+  if (message.author.bot) return;
+
+  if (message.content === "ping") {
+    message.reply("pong 🏓");
+  }
+});
+
+client.login(TOKEN);
